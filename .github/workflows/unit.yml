@@ -1,0 +1,35 @@
+name: Unit Tests
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    branches:
+      - main
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: [ 8.1, 8.2 ]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          tools: composer:v2
+      - name: Install PHP dependencies
+        uses: ramsey/composer-install@v3
+        with:
+          composer-options: --prefer-dist
+      - name: Run code style checker
+        run: composer cs
+      - name: Run static analysis
+        run: composer analyze -- --no-progress
+      - name: Run tests
+        run: composer test

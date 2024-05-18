@@ -211,6 +211,12 @@ The object, however, implements the `__toString` method, so you can cast it to a
 
 The media URL for an episode is available as part of the episode's `enclosure` property, along with the length (in seconds) and media type.
 
+### Why are the episodes returned as an `EpisodeCollection extends LazyCollection` object? What’s a lazy collection anyway?
+
+The `LazyCollection` class leverages [PHP's generators](https://www.php.net/manual/en/language.generators.overview.php) to allow you to work with very large datasets while keeping memory usage low.
+Since a podcast feed can potentially contain a large number of episodes, returning a `LazyCollection` allows you to iterate over the episodes without loading them all into memory at once,
+speeding up the process and reducing memory consumption.
+
 ### Can you support feature X/Y/Z?
 
 Poddle aims to be a lightweight and efficient podcast feed parser that follows the PSP-1 standard, not a full-blown RSS/Atom parser.

@@ -37,7 +37,7 @@ class PoddleTest extends TestCase
 
     private static function assertChannel(Channel $channel): void
     {
-        self::assertEqualsCanonicalizing([
+        self::assertEquals([
             'url' => 'https://phanan.net',
             'title' => 'Podcast Feed Parser',
             'description' => 'Parse podcast feeds with PHP following PSP-1 Podcast RSS Standard',
@@ -93,10 +93,10 @@ class PoddleTest extends TestCase
         /** @var Episode $firstEpisode */
         $firstEpisode = $episodes->first();
 
-        self::assertEqualsCanonicalizing([
+        self::assertEquals([
             'title' => 'Hiking Treks Trailer',
             'guid' => [
-                'guid' => 'D03EEC9B-B1B4-475B-92C8-54F853FA2A22',
+                'value' => 'D03EEC9B-B1B4-475B-92C8-54F853FA2A22',
                 'is_perma_link' => false,
             ],
             'enclosure' => [
@@ -106,7 +106,7 @@ class PoddleTest extends TestCase
             ],
             'metadata' => [
                 'link' => null,
-                'pubDate' => 'Tue, 08 Jan 2019 01:15:00 +0000',
+                'pub_date' => 'Tue, 08 Jan 2019 01:15:00 +0000',
                 'description' => 'The Sunset Explorers share tips, techniques and recommendations for great hikes',
                 'duration' => 1079,
                 'image' => null,

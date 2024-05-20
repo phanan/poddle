@@ -209,7 +209,7 @@ The object, however, implements the `__toString` method, so you can cast it to a
 
 ### Where is an episode’s media URL?
 
-The media URL for an episode is available as part of the episode's `enclosure` property, along with the length (in seconds) and media type.
+The media URL for an episode is available as part of the episode's [`enclosure` property](https://github.com/Podcast-Standards-Project/PSP-1-Podcast-RSS-Specification#item-enclosure).
 
 ### Why are the episodes returned as an `EpisodeCollection extends LazyCollection` object? What’s a lazy collection anyway?
 

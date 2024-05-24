@@ -76,24 +76,28 @@ class Poddle
      */
     private function getSoleValue(string ...$queries): ?string
     {
-        foreach ($queries as $query) {
-            if (!Str::startsWith('/rss/channel/', $query)) {
-                $query = '/rss/channel/'.ltrim($query, '/');
+        try {
+            foreach ($queries as $query) {
+                if (!Str::startsWith('/rss/channel/', $query)) {
+                    $query = '/rss/channel/' . ltrim($query, '/');
+                }
+
+                if (Str::contains($query, '@')) {
+                    [$query, $attribute] = explode('@', $query, 2);
+                    $value = $this->xmlReader->xpathElement($query)->first()?->getAttribute($attribute); // @phpstan-ignore-line
+                } else {
+                    $value = $this->xmlReader->xpathValue($query)->first();
+                }
+
+                if ($value) {
+                    return $value;
+                }
             }
 
-            if (Str::contains($query, '@')) {
-                [$query, $attribute] = explode('@', $query, 2);
-                $value = $this->xmlReader->xpathElement($query)->first()?->getAttribute($attribute); // @phpstan-ignore-line
-            } else {
-                $value = $this->xmlReader->xpathValue($query)->first();
-            }
-
-            if ($value) {
-                return $value;
-            }
+            return null;
+        } catch (Throwable) {
+            return null;
         }
-
-        return null;
     }
 
     /**

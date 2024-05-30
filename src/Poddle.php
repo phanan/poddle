@@ -59,11 +59,19 @@ class Poddle
         );
     }
 
-    public function getEpisodes(): EpisodeCollection
+    public function getEpisodes(bool $ignoreInvalids = false): EpisodeCollection
     {
-        return new EpisodeCollection(function (): Generator {
+        return new EpisodeCollection(function () use ($ignoreInvalids): Generator {
             foreach ($this->xmlReader->element('rss.channel.item')->collectLazy() as $item) {
-                yield Episode::fromXmlElement($item);
+                try {
+                    yield Episode::fromXmlElement($item);
+                } catch (Throwable $e) {
+                    if ($ignoreInvalids) {
+                        continue;
+                    }
+
+                    throw $e;
+                }
             }
         });
     }

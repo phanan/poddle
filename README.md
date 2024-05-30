@@ -79,6 +79,8 @@ To access the podcast episodes, call `getEpisodes` on the `Poddle` object:
 $episodes = $poddle->getEpisodes();
 ```
 
+By default, `getEpisodes` will throw an error if any of the episodes is malformed. If you want a more forgiving behavior, pass `true` into the call to silently ignore the invalid episodes.
+
 This method returns a [lazy collection](https://laravel.com/docs/11.x/collections#lazy-collections) of `\PhanAn\Poddle\Values\Episode` objects. You can iterate over the collection to access each episode:
 
 ```php

@@ -2,7 +2,6 @@
 
 namespace Tests;
 
-use GuzzleHttp\Psr7\Stream;
 use GuzzleHttp\Psr7\Utils;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\LazyCollection;

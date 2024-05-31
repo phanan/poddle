@@ -33,7 +33,7 @@ class Poddle
     public static function fromUrl(string $url, int $timeoutInSeconds = 30, ClientInterface $client = null): self
     {
         $xml = $client
-            ? $client->sendRequest(new Request('GET', $url, ['connect_timeout' => $timeoutInSeconds]))->getBody()
+            ? $client->sendRequest(new Request('GET', $url, ['timeout' => $timeoutInSeconds]))->getBody()
             : Http::timeout($timeoutInSeconds)->get($url)->body();
 
         return new self((string) $xml);

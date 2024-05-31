@@ -32,13 +32,7 @@ This method also accepts two additional parameters:
 If you already have the XML string, you can parse it using `Poddle::fromXml` instead:
 
 ```php
-use Illuminate\Support\Facades\Http;
-
-$poddle = \PhanAn\Poddle::fromXml(Http::timeout(60)
-    ->withoutVerifying()
-    ->get('https://example.com/feed.xml')
-    ->body()
-);
+$poddle = \PhanAn\Poddle::fromXml(file_read_contents('feed.xml'));
 ```
 
 Upon success, both `fromUrl` and `fromXml` methods return a `Poddle` object, which you can use to access the feed's channel and episodes.

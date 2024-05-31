@@ -3,6 +3,7 @@
 namespace PhanAn\Poddle;
 
 use Generator;
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use PhanAn\Poddle\Enums\PodcastType;
@@ -13,6 +14,7 @@ use PhanAn\Poddle\Values\Episode;
 use PhanAn\Poddle\Values\EpisodeCollection;
 use PhanAn\Poddle\Values\FundingCollection;
 use PhanAn\Poddle\Values\TxtCollection;
+use Psr\Http\Client\ClientInterface;
 use Saloon\XmlWrangler\Exceptions\QueryAlreadyReadException;
 use Saloon\XmlWrangler\Exceptions\XmlReaderException;
 use Saloon\XmlWrangler\XmlReader;
@@ -28,9 +30,13 @@ class Poddle
         $this->xmlReader = XmlReader::fromString($xml);
     }
 
-    public static function fromUrl(string $url, int $timeoutInSeconds = 30): self
+    public static function fromUrl(string $url, int $timeoutInSeconds = 30, ClientInterface $client = null): self
     {
-        return new self(Http::timeout($timeoutInSeconds)->get($url)->body());
+        $xml = $client
+            ? $client->sendRequest(new Request('GET', $url, ['connect_timeout' => $timeoutInSeconds]))->getBody()
+            : Http::timeout($timeoutInSeconds)->get($url)->body();
+
+        return new self((string) $xml);
     }
 
     public static function fromXml(string $xml): self

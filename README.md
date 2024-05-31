@@ -14,15 +14,22 @@ composer require phanan/poddle
 
 ## Usage
 
-To parse a podcast feed, call the `fromUrl` method with the feed URL:
+### Parse from a URL
+
+To parse a podcast feed from its URL, call the `fromUrl` method with the feed URL:
 
 ```php
 $poddle = \PhanAn\Poddle::fromUrl('https://example.com/feed.xml');
 ```
 
-It is possible to configure the timeout value for the request by passing an integer as the second parameter for `Poddle::fromUrl`.
+This method also accepts two additional parameters:
 
-For total control, you can make the request yourself (for example using an HTTP client) and pass the response body to `Poddle::fromXml` instead:
+* `timeoutInSeconds`: The number of seconds to wait while trying to connect. Defaults to 30. Note that the `max_execution_time` value in your PHP configuration may still limit the maximum timeout value.
+* `client`: A PSR-7-compliant client to make the request. If not provided, Poddle will use a default client. This parameter may come in handy during testing or if you need to heavily customize the request.
+
+### Parse from XML
+
+If you already have the XML string, you can parse it using `Poddle::fromXml` instead:
 
 ```php
 use Illuminate\Support\Facades\Http;

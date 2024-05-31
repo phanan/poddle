@@ -2,12 +2,18 @@
 
 namespace Tests;
 
+use GuzzleHttp\Psr7\Stream;
+use GuzzleHttp\Psr7\Utils;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\LazyCollection;
+use Mockery;
 use PhanAn\Poddle\Poddle;
 use PhanAn\Poddle\Values\Channel;
 use PhanAn\Poddle\Values\Episode;
 use PhanAn\Poddle\Values\EpisodeCollection;
+use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class PoddleTest extends TestCase
 {
@@ -30,6 +36,34 @@ class PoddleTest extends TestCase
         ]);
 
         $parser = Poddle::fromUrl('https://mypodcast.com/feed');
+
+        self::assertChannel($parser->getChannel());
+        self::assertEpisodes($parser->getEpisodes());
+    }
+
+    public function testParseUrlUsingClientInterface(): void
+    {
+        $clientMock = Mockery::mock(ClientInterface::class);
+
+        $responseMock = Mockery::mock(ResponseInterface::class, [
+            'getBody' => Utils::streamFor(file_get_contents(__DIR__ . '/fixtures/sample.xml')),
+        ]);
+
+        $clientMock->shouldReceive('sendRequest')->with(
+            Mockery::on(static function (RequestInterface $request): bool {
+                self::assertSame('GET', $request->getMethod());
+                self::assertSame('https://mypodcast.com/feed', (string) $request->getUri());
+                self::assertSame('45', $request->getHeader('connect_timeout')[0]);
+
+                return true;
+            })
+        )->andReturn($responseMock);
+
+        $parser = Poddle::fromUrl(
+            url: 'https://mypodcast.com/feed',
+            timeoutInSeconds: 45,
+            client: $clientMock
+        );
 
         self::assertChannel($parser->getChannel());
         self::assertEpisodes($parser->getEpisodes());
@@ -85,7 +119,7 @@ class PoddleTest extends TestCase
         ], $channel->toArray());
     }
 
-    public function assertEpisodes(EpisodeCollection $episodes): void
+    private function assertEpisodes(EpisodeCollection $episodes): void
     {
         self::assertInstanceOf(LazyCollection::class, $episodes);
         self::assertSame(8, $episodes->count());

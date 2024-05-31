@@ -52,7 +52,7 @@ class PoddleTest extends TestCase
             Mockery::on(static function (RequestInterface $request): bool {
                 self::assertSame('GET', $request->getMethod());
                 self::assertSame('https://mypodcast.com/feed', (string) $request->getUri());
-                self::assertSame('45', $request->getHeader('connect_timeout')[0]);
+                self::assertSame('45', $request->getHeader('timeout')[0]);
 
                 return true;
             })

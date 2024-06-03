@@ -28,7 +28,7 @@ class EpisodeGuid extends Serializable
     public static function fromArray(array $data): static
     {
         return new static(
-            value: Arr::get($data, 'guid'),
+            value: Arr::get($data, 'value'),
             isPermaLink: Arr::get($data, 'is_perma_link'),
         );
     }

@@ -43,7 +43,7 @@ class ChannelMetadata extends Serializable
             'copyright' => $this->copyright,
             'txts' => $this->txts->toArray(),
             'fundings' => $this->fundings->toArray(),
-            'type' => $this->type->value,
+            'type' => $this->type?->value,
             'complete' => $this->complete,
         ];
     }

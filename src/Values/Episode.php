@@ -17,6 +17,16 @@ class Episode extends Serializable
     ) {
     }
 
+    public static function fromArray(array $data): static
+    {
+        return new static(
+            title: Arr::get($data, 'title'),
+            guid: EpisodeGuid::fromArray(Arr::get($data, 'guid')),
+            enclosure: Enclosure::fromArray(Arr::get($data, 'enclosure')),
+            metadata: EpisodeMetadata::fromArray(Arr::get($data, 'metadata', [])),
+        );
+    }
+
     public static function fromXmlElement(Element $item): static
     {
         try {

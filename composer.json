@@ -38,7 +38,7 @@
     "test": "phpunit tests",
     "cs": "pint --test",
     "cs:fix": "pint",
-    "analyze": "phpstan analyse"
+    "analyze": "phpstan analyse --memory-limit=1G"
   },
   "post-install-cmd": [
     "composer dump-autoload"

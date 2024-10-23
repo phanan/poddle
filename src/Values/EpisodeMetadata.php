@@ -103,7 +103,7 @@ class EpisodeMetadata extends Serializable
             ? match (sscanf($duration, '%d:%d:%d', $x, $y, $z)) {
                 1 => $x,
                 2 => $x * 60 + $y,
-                3 => $x * 3600 + $y * 60 + $z,
+                3 => $x * 3600 + $y * 60 + $z, // @phpstan-ignore-line
                 default => throw new InvalidDurationException($duration),
             }
         : null;

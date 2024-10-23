@@ -19,7 +19,7 @@ class EpisodeGuidTest extends TestCase
         $guid = EpisodeGuid::fromXmlElement($element);
 
         self::assertEqualsCanonicalizing([
-            'content' => 'a34d23b2-0cc0-4851-88fe-e3d9b74f4c31',
+            'value' => 'a34d23b2-0cc0-4851-88fe-e3d9b74f4c31',
             'is_perma_link' => false,
         ], $guid->toArray());
     }

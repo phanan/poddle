@@ -9,7 +9,7 @@ use Throwable;
 
 class Funding extends Serializable
 {
-    final public function __construct(public readonly string $url, public readonly string $text)
+    public function __construct(public readonly string $url, public readonly string $text)
     {
     }
 

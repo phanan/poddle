@@ -9,7 +9,7 @@ use Throwable;
 
 class EpisodeGuid extends Serializable
 {
-    final public function __construct(public readonly string $value, public readonly bool $isPermaLink)
+    public function __construct(public readonly string $value, public readonly bool $isPermaLink)
     {
     }
 

@@ -12,7 +12,7 @@ use Saloon\XmlWrangler\Data\Element;
 
 class EpisodeMetadata extends Serializable
 {
-    final public function __construct(
+    public function __construct(
         public readonly ?string $link,
         public readonly ?DateTime $pubDate,
         public readonly ?string $description,

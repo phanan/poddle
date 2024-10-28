@@ -9,7 +9,7 @@ use Throwable;
 
 class Txt extends Serializable
 {
-    final public function __construct(public readonly string $content, public readonly ?string $purpose)
+    public function __construct(public readonly string $content, public readonly ?string $purpose)
     {
     }
 

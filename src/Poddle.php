@@ -88,7 +88,7 @@ class Poddle
      * @throws Throwable
      * @throws XmlReaderException
      */
-    private function getSoleValue(string ...$queries): ?string
+    public function getSoleValue(string ...$queries): ?string
     {
         try {
             foreach ($queries as $query) {
@@ -120,7 +120,7 @@ class Poddle
      * @throws Throwable
      * @throws XmlReaderException
      */
-    private function getMetadata(): ChannelMetadata
+    public function getMetadata(): ChannelMetadata
     {
         return new ChannelMetadata(
             locked: $this->getSoleValue('podcast:locked') === 'yes',
@@ -140,7 +140,7 @@ class Poddle
      * @throws Throwable
      * @throws XmlReaderException
      */
-    private function getFundings(): FundingCollection
+    public function getFundings(): FundingCollection
     {
         return FundingCollection::fromXmlElements(
             $this->xmlReader->element('rss.channel.podcast:funding')->collectLazy()
@@ -153,7 +153,7 @@ class Poddle
      * @throws Throwable
      * @throws XmlReaderException
      */
-    private function getCategories(): CategoryCollection
+    public function getCategories(): CategoryCollection
     {
         return CategoryCollection::fromXmlElements(
             $this->xmlReader->element('rss.channel.itunes:category')->collectLazy()
@@ -166,7 +166,7 @@ class Poddle
      * @throws Throwable
      * @throws XmlReaderException
      */
-    private function getTxts(): TxtCollection
+    public function getTxts(): TxtCollection
     {
         return TxtCollection::fromXmlElements(
             $this->xmlReader->element('rss.channel.podcast:txt')->collectLazy()

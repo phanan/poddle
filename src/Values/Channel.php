@@ -10,7 +10,7 @@ class Channel extends Serializable
         public readonly string $url,
         public readonly string $title,
         public readonly string $description,
-        public readonly string $link,
+        public readonly ?string $link, // https://github.com/phanan/poddle/issues/5
         public readonly string $language,
         public readonly CategoryCollection $categories,
         public readonly bool $explicit,

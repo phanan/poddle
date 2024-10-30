@@ -9,7 +9,7 @@ use Throwable;
 
 class Episode extends Serializable
 {
-    final public function __construct(
+    public function __construct(
         public readonly string $title,
         public readonly EpisodeGuid $guid,
         public readonly Enclosure $enclosure,

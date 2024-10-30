@@ -16,7 +16,7 @@ class TxtCollection extends Collection
     /**
      * @param array<TModel> $items
      */
-    final public function __construct(array $items = [])
+    public function __construct(array $items = [])
     {
         parent::__construct($items);
     }

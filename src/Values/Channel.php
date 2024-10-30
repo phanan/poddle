@@ -6,7 +6,7 @@ use Illuminate\Support\Arr;
 
 class Channel extends Serializable
 {
-    final public function __construct(
+    public function __construct(
         public readonly string $url,
         public readonly string $title,
         public readonly string $description,

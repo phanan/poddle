@@ -7,7 +7,7 @@ use PhanAn\Poddle\Enums\PodcastType;
 
 class ChannelMetadata extends Serializable
 {
-    final public function __construct(
+    public function __construct(
         public readonly bool $locked,
         public readonly ?string $guid,
         public readonly ?string $author,

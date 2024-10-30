@@ -11,7 +11,7 @@ use Illuminate\Support\LazyCollection;
  */
 class EpisodeCollection extends LazyCollection
 {
-    final public function __construct($source = null)
+    public function __construct($source = null)
     {
         parent::__construct($source);
     }

@@ -9,7 +9,7 @@ use Throwable;
 
 class Category extends Serializable
 {
-    final public function __construct(public readonly string $text, public readonly ?Category $subCategory = null)
+    public function __construct(public readonly string $text, public readonly ?Category $subCategory = null)
     {
     }
 

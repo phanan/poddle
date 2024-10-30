@@ -9,7 +9,7 @@ use Throwable;
 
 class Enclosure extends Serializable
 {
-    final public function __construct(
+    public function __construct(
         public readonly string $url,
         public readonly string $type,
         public readonly int $length

@@ -20,9 +20,9 @@
   "require": {
     "php": ">=8.1",
     "saloonphp/xml-wrangler": "^1.2",
-    "illuminate/collections": "^10.48|^11.23",
-    "illuminate/http": "^10.48|^11.23",
-    "illuminate/support": "^10.48|^11.23",
+    "illuminate/collections": "^10.48|^11.23|^12.0",
+    "illuminate/http": "^10.48|^11.23|^12.0",
+    "illuminate/support": "^10.48|^11.23|^12.0",
     "guzzlehttp/guzzle": "^7.8",
     "psr/http-client": "^1.0"
   },

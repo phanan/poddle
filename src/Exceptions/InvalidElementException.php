@@ -10,7 +10,7 @@ abstract class InvalidElementException extends Exception
     abstract protected function specUrl(): string;
     abstract protected function elementName(): string;
 
-    public function __construct(Throwable $previous = null)
+    public function __construct(?Throwable $previous = null)
     {
         parent::__construct(
             sprintf(

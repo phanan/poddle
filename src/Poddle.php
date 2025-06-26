@@ -30,7 +30,7 @@ class Poddle
         $this->xmlReader = XmlReader::fromString($xml);
     }
 
-    public static function fromUrl(string $url, int $timeoutInSeconds = 30, ClientInterface $client = null): self
+    public static function fromUrl(string $url, int $timeoutInSeconds = 30, ?ClientInterface $client = null): self
     {
         $xml = $client
             ? $client->sendRequest(new Request('GET', $url, ['timeout' => (string) $timeoutInSeconds]))->getBody()
@@ -98,7 +98,7 @@ class Poddle
 
                 if (Str::contains($query, '@')) {
                     [$query, $attribute] = explode('@', $query, 2);
-                    $value = $this->xmlReader->xpathElement($query)->first()?->getAttribute($attribute); // @phpstan-ignore-line
+                    $value = $this->xmlReader->xpathElement($query)->first()?->getAttribute($attribute);
                 } else {
                     $value = $this->xmlReader->xpathValue($query)->first();
                 }

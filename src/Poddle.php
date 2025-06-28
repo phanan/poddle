@@ -124,7 +124,7 @@ class Poddle
     {
         return new ChannelMetadata(
             locked: $this->getSoleValue('podcast:locked') === 'yes',
-            guid: $this->getSoleValue('guid'),
+            guid: $this->getSoleValue('podcast:guid'),
             author: $this->getSoleValue('itunes:author'),
             copyright: $this->getSoleValue('copyright'),
             txts: $this->getTxts(),

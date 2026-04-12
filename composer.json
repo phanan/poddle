@@ -20,18 +20,18 @@
   "require": {
     "php": ">=8.1",
     "saloonphp/xml-wrangler": "^1.2",
-    "illuminate/collections": "^10.48|^11.23|^12.0",
-    "illuminate/http": "^10.48|^11.23|^12.0",
-    "illuminate/support": "^10.48|^11.23|^12.0",
+    "illuminate/collections": "^10.48|^11.23|^12.0|^13.0",
+    "illuminate/http": "^10.48|^11.23|^12.0|^13.0",
+    "illuminate/support": "^10.48|^11.23|^12.0|^13.0",
     "guzzlehttp/guzzle": "^7.8",
     "psr/http-client": "^1.0"
   },
   "require-dev": {
     "phpunit/phpunit": ">=10.5",
     "laravel/pint": "^1.15",
-    "larastan/larastan": "^2.9",
+    "larastan/larastan": "^2.9|^3.0",
     "orchestra/testbench": "*",
-    "laravel/tinker": "^2.9",
+    "laravel/tinker": "^2.9|^3.0",
     "mockery/mockery": "^1.6"
   },
   "scripts": {

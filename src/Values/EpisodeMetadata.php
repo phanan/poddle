@@ -99,14 +99,24 @@ class EpisodeMetadata extends Serializable
     {
         $duration = (string) $duration;
 
-        return $duration
-            ? match (sscanf($duration, '%d:%d:%d', $x, $y, $z)) {
-                1 => $x,
-                2 => $x * 60 + $y,
-                3 => $x * 3600 + $y * 60 + $z,
-                default => throw new InvalidDurationException($duration),
-            }
-        : null;
+        if ($duration === '') {
+            return null;
+        }
+
+        $parts = explode(':', $duration);
+
+        if (count($parts) > 3 || array_filter($parts, static fn (string $p): bool => !ctype_digit($p)) !== []) {
+            throw new InvalidDurationException($duration);
+        }
+
+        $parts = array_map('intval', $parts);
+
+        return match (count($parts)) {
+            1 => $parts[0],
+            2 => $parts[0] * 60 + $parts[1],
+            3 => $parts[0] * 3600 + $parts[1] * 60 + $parts[2],
+            default => throw new InvalidDurationException($duration),
+        };
     }
 
     /** @return array<string, mixed> */

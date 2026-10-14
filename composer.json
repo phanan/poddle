@@ -55,7 +55,10 @@
   },
   "config": {
     "preferred-install": "dist",
-    "optimize-autoloader": true
+    "optimize-autoloader": true,
+    "audit": {
+      "block-insecure": false
+    }
   },
   "minimum-stability": "stable"
 }

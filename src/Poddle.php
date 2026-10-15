@@ -2,8 +2,12 @@
 
 namespace PhanAn\Poddle;
 
+use DOMDocument;
+use DOMElement;
 use Generator;
 use GuzzleHttp\Psr7\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use PhanAn\Poddle\Enums\PodcastType;
@@ -15,12 +19,20 @@ use PhanAn\Poddle\Values\EpisodeCollection;
 use PhanAn\Poddle\Values\FundingCollection;
 use PhanAn\Poddle\Values\TxtCollection;
 use Psr\Http\Client\ClientInterface;
+use Saloon\XmlWrangler\Data\Element;
 use Saloon\XmlWrangler\XmlReader;
 use Throwable;
+use VeeWee\Xml\Dom\Document;
+use VeeWee\Xml\Dom\Traverser\Visitor\RemoveNamespaces;
+use VeeWee\Xml\Dom\Xpath;
+
+use function VeeWee\Xml\Dom\Configurator\traverse;
 
 class Poddle
 {
     public readonly XmlReader $xmlReader;
+
+    private ?Xpath $xpath = null;
 
     public function __construct(public readonly string $xml)
     {
@@ -83,9 +95,9 @@ class Poddle
 
                 if (Str::contains($query, '@')) {
                     [$query, $attribute] = explode('@', $query, 2);
-                    $value = $this->xmlReader->xpathElement($query)->first()?->getAttribute($attribute);
+                    $value = $this->queryElements($query)->first()?->getAttribute($attribute);
                 } else {
-                    $value = $this->xmlReader->xpathValue($query)->first();
+                    $value = $this->queryElements($query)->first()?->getContent();
                 }
 
                 if ($value) {
@@ -116,21 +128,51 @@ class Poddle
     private function getFundings(): FundingCollection
     {
         return FundingCollection::fromXmlElements(
-            $this->xmlReader->element('rss.channel.podcast:funding')->collectLazy()
+            $this->getChannelElements('podcast:funding')
         );
     }
 
     private function getCategories(): CategoryCollection
     {
         return CategoryCollection::fromXmlElements(
-            $this->xmlReader->element('rss.channel.itunes:category')->collectLazy()
+            $this->getChannelElements('itunes:category')
         );
     }
 
     private function getTxts(): TxtCollection
     {
         return TxtCollection::fromXmlElements(
-            $this->xmlReader->element('rss.channel.podcast:txt')->collectLazy()
+            $this->getChannelElements('podcast:txt')
         );
+    }
+
+    /** @return Collection<int, Element> */
+    private function getChannelElements(string $name): Collection
+    {
+        return $this->queryElements("/rss/channel//{$name}[not(ancestor::{$name})]");
+    }
+
+    /** @return Collection<int, Element> */
+    private function queryElements(string $query): Collection
+    {
+        return collect($this->getXpath()->query($query))
+            ->whereInstanceOf(DOMElement::class)
+            ->map(static fn (DOMElement $node): Element => self::toXmlElement($node))
+            ->values();
+    }
+
+    private function getXpath(): Xpath
+    {
+        $this->xpath ??= Document::fromXmlString($this->xml, traverse(RemoveNamespaces::unprefixed()))->xpath();
+
+        return $this->xpath;
+    }
+
+    private static function toXmlElement(DOMElement $node): Element
+    {
+        $document = new DOMDocument();
+        $document->appendChild($document->importNode($node, true));
+
+        return Arr::first(XmlReader::fromString((string) $document->saveXML())->elements());
     }
 }

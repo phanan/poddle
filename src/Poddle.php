@@ -25,6 +25,7 @@ use Throwable;
 use VeeWee\Xml\Dom\Document;
 use VeeWee\Xml\Dom\Traverser\Visitor\RemoveNamespaces;
 use VeeWee\Xml\Dom\Xpath;
+use VeeWee\Xml\Exception\RuntimeException as XmlRuntimeException;
 
 use function VeeWee\Xml\Dom\Configurator\traverse;
 
@@ -149,7 +150,11 @@ class Poddle
     /** @return Collection<int, Element> */
     private function getChannelElements(string $name): Collection
     {
-        return $this->queryElements("/rss/channel//{$name}[not(ancestor::{$name})]");
+        try {
+            return $this->queryElements("/rss/channel//{$name}[not(ancestor::{$name})]");
+        } catch (XmlRuntimeException) {
+            return collect();
+        }
     }
 
     /** @return Collection<int, Element> */

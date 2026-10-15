@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+    <channel>
+        <title>Plain Podcast</title>
+        <link>https://example.com</link>
+        <description>A feed that declares no namespaces</description>
+        <language>en-US</language>
+
+        <item>
+            <title>Episode 1</title>
+            <description>The first episode</description>
+            <guid>https://example.com/episodes/1</guid>
+            <enclosure url="https://example.com/episodes/1.mp3" length="1024" type="audio/mpeg"/>
+        </item>
+    </channel>
+</rss>

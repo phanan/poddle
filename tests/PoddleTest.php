@@ -80,6 +80,17 @@ class PoddleTest extends TestCase
         self::addToAssertionCount(1);
     }
 
+    #[Test]
+    public function channelWithoutNamespaces(): void
+    {
+        $channel = Poddle::fromXml(file_get_contents(__DIR__ . '/fixtures/no-namespaces.xml'))->getChannel();
+
+        self::assertSame('Plain Podcast', $channel->title);
+        self::assertCount(0, $channel->categories);
+        self::assertCount(0, $channel->metadata->fundings);
+        self::assertCount(0, $channel->metadata->txts);
+    }
+
     private static function assertSampleChannel(Channel $channel): void
     {
         self::assertEquals([
